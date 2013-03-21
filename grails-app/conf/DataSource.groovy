@@ -1,8 +1,8 @@
 dataSource {
     pooled = true
-    driverClassName = "org.h2.Driver"
-    username = "sa"
-    password = ""
+    driverClassName = "com.mysql.jdbc.Driver"
+    username = "logh"
+    password = "logh"
 }
 hibernate {
     cache.use_second_level_cache = true
@@ -14,19 +14,20 @@ environments {
     development {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            url = "jdbc:mysql://localhost:3306/logh_dev?autoreconnect=true"
         }
     }
     test {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            dbCreate = "create-drop"
+            url = "jdbc:mysql://localhost:3306/logh_dev?autoreconnect=true"
         }
     }
     production {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            driverClassName = "com.cloudbees.jdbc.Driver"
+            dbCreate = "create-drop"
+            url = "jdbc:cloudbees://logh_dev"
             pooled = true
             properties {
                maxActive = -1
