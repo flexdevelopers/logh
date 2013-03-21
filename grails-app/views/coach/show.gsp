@@ -23,6 +23,26 @@
 			</g:if>
 			<ol class="property-list coach">
 			
+				<g:if test="${coachInstance?.teams}">
+				<li class="fieldcontain">
+					<span id="teams-label" class="property-label"><g:message code="coach.teams.label" default="Teams" /></span>
+					
+						<g:each in="${coachInstance.teams}" var="t">
+						<span class="property-value" aria-labelledby="teams-label"><g:link controller="team" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${coachInstance?.user}">
+				<li class="fieldcontain">
+					<span id="user-label" class="property-label"><g:message code="coach.user.label" default="User" /></span>
+					
+						<span class="property-value" aria-labelledby="user-label"><g:link controller="user" action="show" id="${coachInstance?.user?.id}">${coachInstance?.user?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

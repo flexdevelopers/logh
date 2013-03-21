@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<a href="#list-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
+        <div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
@@ -24,11 +24,31 @@
 				<thead>
 					<tr>
 					
+						<g:sortableColumn property="firstName" title="${message(code: 'user.firstName.label', default: 'First Name')}" />
+					
+						<g:sortableColumn property="lastName" title="${message(code: 'user.lastName.label', default: 'Last Name')}" />
+					
+						<g:sortableColumn property="email" title="${message(code: 'user.email.label', default: 'Email')}" />
+					
+						<g:sortableColumn property="username" title="${message(code: 'user.username.label', default: 'Username')}" />
+
+						<g:sortableColumn property="role" title="${message(code: 'user.role.label', default: 'Role')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${userInstanceList}" status="i" var="userInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "firstName")}</g:link></td>
+					
+						<td>${fieldValue(bean: userInstance, field: "lastName")}</td>
+					
+						<td>${fieldValue(bean: userInstance, field: "email")}</td>
+					
+						<td>${fieldValue(bean: userInstance, field: "username")}</td>
+
+						<td>${fieldValue(bean: userInstance, field: "role")}</td>
 					
 					</tr>
 				</g:each>

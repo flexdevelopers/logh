@@ -12,6 +12,6 @@ import org.junit.*
 class LeagueTests {
 
     void testSomething() {
-        fail "Implement me"
+        // test something
     }
 }

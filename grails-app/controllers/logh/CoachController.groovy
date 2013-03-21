@@ -16,13 +16,13 @@ class CoachController {
     }
 
     def create() {
-        [coachInstance: new Coach(params)]
+        [coachInstance: new Coach(params), users: User.list()]
     }
 
     def save() {
         def coachInstance = new Coach(params)
         if (!coachInstance.save(flush: true)) {
-            render(view: "create", model: [coachInstance: coachInstance])
+            render(view: "create", model: [coachInstance: coachInstance, users: User.list()])
             return
         }
 
@@ -48,8 +48,7 @@ class CoachController {
             redirect(action: "list")
             return
         }
-
-        [coachInstance: coachInstance]
+        [coachInstance: coachInstance, users: User.list()]
     }
 
     def update(Long id, Long version) {
@@ -65,7 +64,7 @@ class CoachController {
                 coachInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'coach.label', default: 'Coach')] as Object[],
                         "Another user has updated this Coach while you were editing")
-                render(view: "edit", model: [coachInstance: coachInstance])
+                render(view: "edit", model: [coachInstance: coachInstance, users: User.list()])
                 return
             }
         }
@@ -73,7 +72,7 @@ class CoachController {
         coachInstance.properties = params
 
         if (!coachInstance.save(flush: true)) {
-            render(view: "edit", model: [coachInstance: coachInstance])
+            render(view: "edit", model: [coachInstance: coachInstance, users: User.list()])
             return
         }
 

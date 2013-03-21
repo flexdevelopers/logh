@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<a href="#list-squad" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
+        <div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
@@ -24,11 +24,19 @@
 				<thead>
 					<tr>
 					
+						<g:sortableColumn property="name" title="${message(code: 'squad.name.label', default: 'Name')}" />
+					
+						<g:sortableColumn property="abbrev" title="${message(code: 'squad.abbrev.label', default: 'Abbrev')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${squadInstanceList}" status="i" var="squadInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${squadInstance.id}">${fieldValue(bean: squadInstance, field: "name")}</g:link></td>
+					
+						<td>${fieldValue(bean: squadInstance, field: "abbrev")}</td>
 					
 					</tr>
 				</g:each>

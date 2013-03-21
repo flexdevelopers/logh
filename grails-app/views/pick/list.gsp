@@ -24,11 +24,31 @@
 				<thead>
 					<tr>
 					
+						<th><g:message code="pick.team.label" default="Team" /></th>
+					
+						<th><g:message code="pick.week.label" default="Week" /></th>
+					
+						<th><g:message code="pick.game.label" default="Game" /></th>
+					
+						<th><g:message code="pick.loser.label" default="Loser" /></th>
+					
+						<g:sortableColumn property="correct" title="${message(code: 'pick.correct.label', default: 'Correct')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${pickInstanceList}" status="i" var="pickInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${pickInstance.id}">${fieldValue(bean: pickInstance, field: "team")}</g:link></td>
+					
+						<td>${fieldValue(bean: pickInstance, field: "week")}</td>
+					
+						<td>${fieldValue(bean: pickInstance, field: "game")}</td>
+					
+						<td>${fieldValue(bean: pickInstance, field: "loser")}</td>
+					
+						<td><g:formatBoolean boolean="${pickInstance.correct}" /></td>
 					
 					</tr>
 				</g:each>

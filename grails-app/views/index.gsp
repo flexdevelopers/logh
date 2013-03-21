@@ -41,7 +41,7 @@
 			}
 
 			#page-body {
-				margin: 2em 1em 1.25em 18em;
+				margin: 2em 1em 1.25em 2em;
 			}
 
 			h2 {
@@ -82,40 +82,47 @@
 	</head>
 	<body>
 		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div id="status" role="complementary">
-			<h1>Application Status</h1>
-			<ul>
-				<li>App version: <g:meta name="app.version"/></li>
-				<li>Grails version: <g:meta name="app.grails.version"/></li>
-				<li>Groovy version: ${GroovySystem.getVersion()}</li>
-				<li>JVM version: ${System.getProperty('java.version')}</li>
-				<li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>
-				<li>Controllers: ${grailsApplication.controllerClasses.size()}</li>
-				<li>Domains: ${grailsApplication.domainClasses.size()}</li>
-				<li>Services: ${grailsApplication.serviceClasses.size()}</li>
-				<li>Tag Libraries: ${grailsApplication.tagLibClasses.size()}</li>
-			</ul>
-			<h1>Installed Plugins</h1>
-			<ul>
-				<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-					<li>${plugin.name} - ${plugin.version}</li>
-				</g:each>
-			</ul>
-		</div>
+		%{--<div id="status" role="complementary">--}%
+			%{--<h1>Application Status</h1>--}%
+			%{--<ul>--}%
+				%{--<li>App version: <g:meta name="app.version"/></li>--}%
+				%{--<li>Grails version: <g:meta name="app.grails.version"/></li>--}%
+				%{--<li>Groovy version: ${GroovySystem.getVersion()}</li>--}%
+				%{--<li>JVM version: ${System.getProperty('java.version')}</li>--}%
+				%{--<li>Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</li>--}%
+				%{--<li>Controllers: ${grailsApplication.controllerClasses.size()}</li>--}%
+				%{--<li>Domains: ${grailsApplication.domainClasses.size()}</li>--}%
+				%{--<li>Services: ${grailsApplication.serviceClasses.size()}</li>--}%
+				%{--<li>Tag Libraries: ${grailsApplication.tagLibClasses.size()}</li>--}%
+			%{--</ul>--}%
+			%{--<h1>Installed Plugins</h1>--}%
+			%{--<ul>--}%
+				%{--<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">--}%
+					%{--<li>${plugin.name} - ${plugin.version}</li>--}%
+				%{--</g:each>--}%
+			%{--</ul>--}%
+		%{--</div>--}%
 		<div id="page-body" role="main">
-			<h1>Welcome to Grails</h1>
-			<p>Congratulations, you have successfully started your first Grails application! At the moment
-			   this is the default page, feel free to modify it to either redirect to a controller or display whatever
-			   content you may choose. Below is a list of controllers that are currently deployed in this application,
-			   click on each to execute its default action:</p>
-
+			<h1>Welcome to LOGH</h1>
+			<p>Below is a list of things you can do in this app:</p>
 			<div id="controller-list" role="navigation">
-				<h2>Available Controllers:</h2>
+				<h2>Available Functions:</h2>
 				<ul>
-					<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-						<li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
-					</g:each>
-				</ul>
+			        <li class="controller"><g:link controller="user">Manage User</g:link></li>
+			        <li class="controller"><g:link controller="league">Manage Leagues</g:link></li>
+                    <li class="controller"><g:link controller="team">Manage Teams</g:link></li>
+                    <li class="controller"><g:link controller="pick">Manage Picks</g:link></li>
+                </ul>
+                <g:if test="${session?.user?.admin}">
+                <h2>Admin Functions:</h2>
+                <ul>
+                    <li class="controller"><g:link controller="week">Manage Weeks</g:link></li>
+                    <li class="controller"><g:link controller="game">Manage Games</g:link></li>
+                    <li class="controller"><g:link controller="squad">Manage Squads</g:link></li>
+                    <li class="controller"><g:link controller="coach">Manage Coaches</g:link></li>
+                    <li class="controller"><g:link controller="commish">Manage Commishes</g:link></li>
+                </ul>
+                </g:if>
 			</div>
 		</div>
 	</body>

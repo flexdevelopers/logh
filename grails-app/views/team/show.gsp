@@ -22,7 +22,54 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list team">
-			
+				<g:if test="${teamInstance?.name}">
+				<li class="fieldcontain">
+					<span id="name-label" class="property-label"><g:message code="team.name.label" default="Name" /></span>
+					<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${teamInstance}" field="name"/></span>
+				</li>
+				</g:if>
+				<g:if test="${teamInstance?.description}">
+				<li class="fieldcontain">
+					<span id="description-label" class="property-label"><g:message code="team.description.label" default="Description" /></span>
+					<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${teamInstance}" field="description"/></span>
+				</li>
+				</g:if>
+				<g:if test="${teamInstance?.league}">
+				<li class="fieldcontain">
+					<span id="league-label" class="property-label"><g:message code="team.league.label" default="League" /></span>
+					<span class="property-value" aria-labelledby="league-label"><g:link controller="league" action="show" id="${teamInstance?.league?.id}">${teamInstance?.league?.encodeAsHTML()}</g:link></span>
+				</li>
+				</g:if>
+				<g:if test="${teamInstance?.coach}">
+				<li class="fieldcontain">
+					<span id="coach-label" class="property-label"><g:message code="team.coach.label" default="Coach" /></span>
+                    <g:if test="${session?.user?.admin}">
+					<span class="property-value" aria-labelledby="coach-label"><g:link controller="coach" action="show" id="${teamInstance?.coach?.id}">${teamInstance?.coach?.encodeAsHTML()}</g:link></span>
+                    </g:if>
+                    <g:else>
+                    <span class="property-value" aria-labelledby="coach-label"><g:fieldValue bean="${teamInstance}" field="coach"/></span>
+                    </g:else>
+				</li>
+				</g:if>
+				<g:if test="${teamInstance?.dateCreated}">
+				<li class="fieldcontain">
+					<span id="dateCreated-label" class="property-label"><g:message code="team.dateCreated.label" default="Date Created" /></span>
+					<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${teamInstance?.dateCreated}" /></span>
+				</li>
+				</g:if>
+				<g:if test="${teamInstance?.lastUpdated}">
+				<li class="fieldcontain">
+					<span id="lastUpdated-label" class="property-label"><g:message code="team.lastUpdated.label" default="Last Updated" /></span>
+					<span class="property-value" aria-labelledby="lastUpdated-label"><g:formatDate date="${teamInstance?.lastUpdated}" /></span>
+				</li>
+				</g:if>
+				<li class="fieldcontain">
+					<span id="picks-label" class="property-label"><g:message code="team.picks.label" default="Picks" /></span>
+                    <g:each in="${teamInstance.picks}" var="p">
+                    <span class="property-value" aria-labelledby="picks-label"><g:link controller="pick" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+                    </g:each>
+                    <span class="property-value" aria-labelledby="picks-label"><g:link controller="pick" action="create" params="['team.id': teamInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'pick.label', default: 'Pick')])}</g:link></span>
+				</li>
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

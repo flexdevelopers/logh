@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<a href="#show-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
+        <div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
@@ -22,6 +22,41 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list user">
+			
+				<g:if test="${userInstance?.firstName}">
+				<li class="fieldcontain">
+					<span id="firstName-label" class="property-label"><g:message code="user.firstName.label" default="First Name" /></span>
+					<span class="property-value" aria-labelledby="firstName-label"><g:fieldValue bean="${userInstance}" field="firstName"/></span>
+				</li>
+				</g:if>
+			
+				<g:if test="${userInstance?.lastName}">
+				<li class="fieldcontain">
+					<span id="lastName-label" class="property-label"><g:message code="user.lastName.label" default="Last Name" /></span>
+					<span class="property-value" aria-labelledby="lastName-label"><g:fieldValue bean="${userInstance}" field="lastName"/></span>
+				</li>
+				</g:if>
+			
+				<g:if test="${userInstance?.email}">
+				<li class="fieldcontain">
+					<span id="email-label" class="property-label"><g:message code="user.email.label" default="Email" /></span>
+					<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${userInstance}" field="email"/></span>
+				</li>
+				</g:if>
+			
+				<g:if test="${userInstance?.username}">
+				<li class="fieldcontain">
+					<span id="username-label" class="property-label"><g:message code="user.username.label" default="Username" /></span>
+					<span class="property-value" aria-labelledby="username-label"><g:fieldValue bean="${userInstance}" field="username"/></span>
+				</li>
+				</g:if>
+			
+				<g:if test="${session?.user?.admin}">
+				<li class="fieldcontain">
+					<span id="role-label" class="property-label"><g:message code="user.role.label" default="Role" /></span>
+					<span class="property-value" aria-labelledby="role-label"><g:fieldValue bean="${userInstance}" field="role"/></span>
+				</li>
+				</g:if>
 			
 			</ol>
 			<g:form>

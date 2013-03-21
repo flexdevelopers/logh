@@ -6,23 +6,52 @@ class LeagueController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def beforeInterceptor = [action: this.&init]
+
+    Boolean isAdmin = false
+
+    def init() {
+        isAdmin = session?.user?.admin
+        verifyLeagueDependencies()
+    }
+
+    def verifyLeagueDependencies() {
+        def user = User.get(session.user.id)
+        def commish = Commish.findByUser(user)
+        if (!commish && !isAdmin) {
+            def newCommish = new Commish(user: user)
+            newCommish.save()
+        }
+    }
+
     def index() {
         redirect(action: "list", params: params)
     }
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [leagueInstanceList: League.list(params), leagueInstanceTotal: League.count()]
+        if (isAdmin) {
+            return [leagueInstanceList: League.list(params), leagueInstanceTotal: League.count()]
+        }
+        def commish = Commish.findByUser(User.get(session.user.id))
+        def leagues = League.findAllByCommish(commish, params)
+        [leagueInstanceList: leagues, leagueInstanceTotal: League.findAllByCommish(commish).size()]
     }
 
     def create() {
-        [leagueInstance: new League(params)]
+        def commishes = isAdmin ? Commish.list() : Commish.findAllByUser(User.get(session.user.id))
+
+        [
+                leagueInstance: new League(params),
+                commishes: commishes
+        ]
     }
 
     def save() {
         def leagueInstance = new League(params)
+        def commishes = isAdmin ? Commish.list() : Commish.findAllByUser(User.get(session.user.id))
         if (!leagueInstance.save(flush: true)) {
-            render(view: "create", model: [leagueInstance: leagueInstance])
+            render(view: "create", model: [leagueInstance: leagueInstance, commishes: commishes])
             return
         }
 
@@ -49,7 +78,12 @@ class LeagueController {
             return
         }
 
-        [leagueInstance: leagueInstance]
+        def commishes = isAdmin ? Commish.list() : Commish.findAllByUser(User.get(session.user.id))
+
+        [
+                leagueInstance: leagueInstance,
+                commishes: commishes
+        ]
     }
 
     def update(Long id, Long version) {
@@ -60,20 +94,26 @@ class LeagueController {
             return
         }
 
+        def commishes = isAdmin ? Commish.list() : Commish.findAllByUser(User.get(session.user.id))
         if (version != null) {
             if (leagueInstance.version > version) {
                 leagueInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                        [message(code: 'league.label', default: 'League')] as Object[],
-                        "Another user has updated this League while you were editing")
-                render(view: "edit", model: [leagueInstance: leagueInstance])
+                          [message(code: 'league.label', default: 'League')] as Object[],
+                          "Another user has updated this League while you were editing")
+                render(view: "edit", model: [leagueInstance: leagueInstance, commishes: commishes])
                 return
             }
+        }
+
+        if (params.password != leagueInstance.password)
+        {
+            params.password = params.password.encodeAsSHA();
         }
 
         leagueInstance.properties = params
 
         if (!leagueInstance.save(flush: true)) {
-            render(view: "edit", model: [leagueInstance: leagueInstance])
+            render(view: "edit", model: [leagueInstance: leagueInstance, commishes: commishes])
             return
         }
 

@@ -1,5 +1,6 @@
 package logh
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class WeekController {
@@ -98,5 +99,15 @@ class WeekController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'week.label', default: 'Week'), id])
             redirect(action: "show", id: id)
         }
+    }
+
+    def ajaxGetGames = {
+        def list = []
+        def week = Week.get(params.id)
+        def games = week?.games
+        games.each {
+            list.add(['id': it.id, 'name': it.toString()])
+        }
+        render list as JSON
     }
 }

@@ -1,4 +1,3 @@
-
 <%@ page import="logh.Pick" %>
 <!DOCTYPE html>
 <html>
@@ -22,7 +21,36 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list pick">
-			
+				<g:if test="${pickInstance?.team}">
+				<li class="fieldcontain">
+					<span id="team-label" class="property-label"><g:message code="pick.team.label" default="Team" /></span>
+					<span class="property-value" aria-labelledby="team-label"><g:link controller="team" action="show" id="${pickInstance?.team?.id}">${pickInstance?.team?.encodeAsHTML()}</g:link></span>
+				</li>
+				</g:if>
+				<g:if test="${pickInstance?.week}">
+				<li class="fieldcontain">
+					<span id="week-label" class="property-label"><g:message code="pick.week.label" default="Week" /></span>
+					<span class="property-value" aria-labelledby="week-label">${pickInstance?.week?.encodeAsHTML()}</span>
+				</li>
+				</g:if>
+				<g:if test="${pickInstance?.game}">
+				<li class="fieldcontain">
+					<span id="game-label" class="property-label"><g:message code="pick.game.label" default="Game" /></span>
+					<span class="property-value" aria-labelledby="game-label">${pickInstance?.game?.encodeAsHTML()}</span>
+				</li>
+				</g:if>
+				<g:if test="${pickInstance?.loser}">
+				<li class="fieldcontain">
+					<span id="loser-label" class="property-label"><g:message code="pick.loser.label" default="Loser" /></span>
+					<span class="property-value" aria-labelledby="loser-label">${pickInstance?.loser?.encodeAsHTML()}</span>
+				</li>
+				</g:if>
+				<g:if test="${pickInstance?.correct}">
+				<li class="fieldcontain">
+					<span id="correct-label" class="property-label"><g:message code="pick.correct.label" default="Correct" /></span>
+					<span class="property-value" aria-labelledby="correct-label"><g:formatBoolean boolean="${pickInstance?.correct}" /></span>
+				</li>
+				</g:if>
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

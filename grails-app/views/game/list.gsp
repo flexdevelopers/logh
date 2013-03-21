@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<a href="#list-game" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
+        <div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
@@ -24,11 +24,31 @@
 				<thead>
 					<tr>
 					
+						<th><g:message code="game.home.label" default="Home" /></th>
+					
+						<th><g:message code="game.visitor.label" default="Visitor" /></th>
+					
+						<th><g:message code="game.loser.label" default="Loser" /></th>
+					
+						<th><g:message code="game.week.label" default="Week" /></th>
+					
+						<g:sortableColumn property="startDate" title="${message(code: 'game.startDate.label', default: 'Start Date')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${gameInstanceList}" status="i" var="gameInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${gameInstance.id}">${fieldValue(bean: gameInstance, field: "home")}</g:link></td>
+					
+						<td>${fieldValue(bean: gameInstance, field: "visitor")}</td>
+					
+						<td>${fieldValue(bean: gameInstance, field: "loser")}</td>
+					
+						<td>${fieldValue(bean: gameInstance, field: "week")}</td>
+					
+						<td><g:formatDate date="${gameInstance.startDate}" /></td>
 					
 					</tr>
 				</g:each>

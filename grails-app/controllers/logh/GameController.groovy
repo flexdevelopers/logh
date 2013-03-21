@@ -1,10 +1,20 @@
 package logh
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class GameController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def beforeInterceptor = [action: this.&init]
+
+    Boolean isAdmin = false
+
+    def init() {
+        isAdmin = session?.user?.admin
+        return true
+    }
 
     def index() {
         redirect(action: "list", params: params)
@@ -98,5 +108,10 @@ class GameController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'game.label', default: 'Game'), id])
             redirect(action: "show", id: id)
         }
+    }
+
+    def ajaxGetSquads = {
+        def squads = [Game.get(params.id).home, Game.get(params.id).visitor]
+        render squads as JSON
     }
 }

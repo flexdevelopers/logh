@@ -23,6 +23,26 @@
 			</g:if>
 			<ol class="property-list commish">
 			
+				<g:if test="${commishInstance?.leagues}">
+				<li class="fieldcontain">
+					<span id="leagues-label" class="property-label"><g:message code="commish.leagues.label" default="Leagues" /></span>
+					
+						<g:each in="${commishInstance.leagues}" var="l">
+						<span class="property-value" aria-labelledby="leagues-label"><g:link controller="league" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${commishInstance?.user}">
+				<li class="fieldcontain">
+					<span id="user-label" class="property-label"><g:message code="commish.user.label" default="User" /></span>
+					
+						<span class="property-value" aria-labelledby="user-label"><g:link controller="user" action="show" id="${commishInstance?.user?.id}">${commishInstance?.user?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

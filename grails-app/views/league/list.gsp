@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<a href="#list-league" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
+        <div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
@@ -23,15 +23,23 @@
 			<table>
 				<thead>
 					<tr>
-					
+						<g:sortableColumn property="name" title="${message(code: 'league.name.label', default: 'Name')}" />
+						<g:sortableColumn property="description" title="${message(code: 'league.description.label', default: 'Description')}" />
+						<g:sortableColumn property="paid" title="${message(code: 'league.paid.label', default: 'Paid')}" />
+						<th><g:message code="league.commish.label" default="Commish" /></th>
+						<g:sortableColumn property="dateCreated" title="${message(code: 'league.dateCreated.label', default: 'Date Created')}" />
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${leagueInstanceList}" status="i" var="leagueInstance">
+				    <g:each in="${leagueInstanceList}" status="i" var="leagueInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
+						<td><g:link action="show" id="${leagueInstance.id}">${fieldValue(bean: leagueInstance, field: "name")}</g:link></td>
+						<td>${fieldValue(bean: leagueInstance, field: "description")}</td>
+						<td><g:formatBoolean boolean="${leagueInstance.paid}" /></td>
+						<td>${fieldValue(bean: leagueInstance, field: "commish")}</td>
+						<td><g:formatDate date="${leagueInstance.dateCreated}" /></td>
 					</tr>
-				</g:each>
+				    </g:each>
 				</tbody>
 			</table>
 			<div class="pagination">

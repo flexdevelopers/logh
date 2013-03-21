@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<a href="#list-coach" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
+        <div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
@@ -24,11 +24,15 @@
 				<thead>
 					<tr>
 					
+						<th><g:message code="coach.user.label" default="User" /></th>
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${coachInstanceList}" status="i" var="coachInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${coachInstance.id}">${fieldValue(bean: coachInstance, field: "user")}</g:link></td>
 					
 					</tr>
 				</g:each>

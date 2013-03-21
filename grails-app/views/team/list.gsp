@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<a href="#list-team" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
+        <div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
@@ -24,11 +24,35 @@
 				<thead>
 					<tr>
 					
+						<g:sortableColumn property="name" title="${message(code: 'team.name.label', default: 'Name')}" />
+					
+						<g:sortableColumn property="description" title="${message(code: 'team.description.label', default: 'Description')}" />
+					
+						<th><g:message code="team.league.label" default="League" /></th>
+					
+						<th><g:message code="team.coach.label" default="Coach" /></th>
+					
+						<g:sortableColumn property="dateCreated" title="${message(code: 'team.dateCreated.label', default: 'Date Created')}" />
+					
+						<g:sortableColumn property="lastUpdated" title="${message(code: 'team.lastUpdated.label', default: 'Last Updated')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${teamInstanceList}" status="i" var="teamInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${teamInstance.id}">${fieldValue(bean: teamInstance, field: "name")}</g:link></td>
+					
+						<td>${fieldValue(bean: teamInstance, field: "description")}</td>
+					
+						<td>${fieldValue(bean: teamInstance, field: "league")}</td>
+					
+						<td>${fieldValue(bean: teamInstance, field: "coach")}</td>
+					
+						<td><g:formatDate date="${teamInstance.dateCreated}" /></td>
+					
+						<td><g:formatDate date="${teamInstance.lastUpdated}" /></td>
 					
 					</tr>
 				</g:each>

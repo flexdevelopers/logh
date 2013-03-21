@@ -16,13 +16,13 @@ class CommishController {
     }
 
     def create() {
-        [commishInstance: new Commish(params)]
+        [commishInstance: new Commish(params), users: User.list()]
     }
 
     def save() {
         def commishInstance = new Commish(params)
         if (!commishInstance.save(flush: true)) {
-            render(view: "create", model: [commishInstance: commishInstance])
+            render(view: "create", model: [commishInstance: commishInstance, users: User.list()])
             return
         }
 
@@ -48,8 +48,7 @@ class CommishController {
             redirect(action: "list")
             return
         }
-
-        [commishInstance: commishInstance]
+        [commishInstance: commishInstance, users: User.list()]
     }
 
     def update(Long id, Long version) {
@@ -65,7 +64,7 @@ class CommishController {
                 commishInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'commish.label', default: 'Commish')] as Object[],
                         "Another user has updated this Commish while you were editing")
-                render(view: "edit", model: [commishInstance: commishInstance])
+                render(view: "edit", model: [commishInstance: commishInstance, users: User.list()])
                 return
             }
         }
@@ -73,7 +72,7 @@ class CommishController {
         commishInstance.properties = params
 
         if (!commishInstance.save(flush: true)) {
-            render(view: "edit", model: [commishInstance: commishInstance])
+            render(view: "edit", model: [commishInstance: commishInstance, users: User.list()])
             return
         }
 
