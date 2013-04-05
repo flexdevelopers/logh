@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
+    <head>    
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+        <title>@title@</title>
+        <style type="text/css"> 
+        	html { overflow: auto; }
+			body { margin:0; padding:0; overflow:hidden; }
+			body, #flashcontent { width:100%; height:100%; }			
+        </style>    
+        <link rel="stylesheet" type="text/css" href="/swf/history/history.css" />
+        <script type="text/javascript" src="/swf/history/history.js"></script>
+        <script type="text/javascript" src="/swf/js/swfobject.js"></script>
+        <script type="text/javascript" src="/swf/js/rightClick.js"></script>
+        <script type="text/javascript">
+       		window["loghApplication"] = new Object();
+            var swfVersionStr = "@version_major@.@version_minor@.@version_revision@";
+            var xiSwfUrlStr = "/swf/js/playerProductInstall.swf";
+            var flashvars = {};
+            var params = {};
+            params.quality = "high";
+            params.menu="false";
+            params.bgcolor = "@bgcolor@";
+            params.allowscriptaccess = "always";
+            params.wmode="opaque";
+            var attributes = {};
+            attributes.id = "loghApplication";
+            attributes.name = "loghApplication";
+            swfobject.embedSWF(
+                "/swf/modules/@applicationFile@@version@.swf", "flashcontent",
+                "100%", "100%",   
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+             
+            function closeApplicationWindow()
+            {
+            	window.close();
+            }
+            
+            function openApplicationWindow(urlToOpen, browserWindowName)
+            {
+            	var win = window.open(urlToOpen,browserWindowName,"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, width="+screen.availWidth+", height="+ screen.availHeight);
+            	win.moveTo(0, 0);
+            	win.resizeTo(screen.availWidth, screen.availHeight);
+            }
+        </script> 
+    </head>
+    <body onload="RightClick.init();">
+        <div id="flashcontent">&nbsp;</div>
+   </body>
+</html>

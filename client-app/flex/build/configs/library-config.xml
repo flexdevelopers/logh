@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<flex-config>
+
+    <compiler>
+
+        <!-- Turn on generation of debuggable SWFs. False by default for mxmlc, -->
+        <!-- but true by default for compc. -->
+        <debug>false</debug>
+
+        <!-- Enable post-link SWF optimization. -->
+        <optimize>true</optimize>
+
+        <!--<library-path>-->
+            <!--<path-element>${lib-dir}/utility/google_map_api_1.20.swc</path-element>-->
+        <!--</library-path>-->
+
+        <keep-as3-metadata>
+            <name>Metadata</name>
+            <name>DefaultProperty</name>
+            <name>Required</name>
+            <name>Event</name>
+            <name>AssignableTo</name>
+            <name>Inject</name>
+            <name>InjectConstructor</name>
+            <name>Publish</name>
+            <name>Subscribe</name>
+            <name>PublishSuscribe</name>
+            <name>Factory</name>
+            <name>Init</name>
+            <name>Destroy</name>
+            <name>Observe</name>
+            <name>AsyncInit</name>
+            <name>ManagedEvents</name>
+            <name>MessageDispatcher</name>
+            <name>MessageHandler</name>
+            <name>MessageBinding</name>
+            <name>MessageInterceptor</name>
+            <name>MessageError</name>
+            <name>Command</name>
+            <name>CommandResult</name>
+            <name>CommandError</name>
+            <name>CommandStatus</name>
+            <name>ResourceBinding</name>
+            <name>Selector</name>
+            <name>Target</name>
+            <name>Internal</name>
+            <name>ObjectDefinition</name>
+            <name>DynamicObject</name>
+        </keep-as3-metadata>
+
+    </compiler>
+
+</flex-config>
