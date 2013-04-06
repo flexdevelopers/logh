@@ -1,3 +1,4 @@
 # Can ignore specific files
+cairngorm3/
 library/
 rsls/
