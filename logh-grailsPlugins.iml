@@ -56,6 +56,7 @@
       <library name="Grails User Library (logh-grailsPlugins)">
         <CLASSES>
           <root url="file://$USER_HOME$/.grails/2.2.0/projects/logh/plugins/searchable-0.6.4/lib" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.20.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
