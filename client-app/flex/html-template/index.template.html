@@ -8,14 +8,14 @@
 			body { margin:0; padding:0; overflow:hidden; }
 			body, #flashcontent { width:100%; height:100%; }			
         </style>    
-        <link rel="stylesheet" type="text/css" href="/swf/history/history.css" />
-        <script type="text/javascript" src="/swf/history/history.js"></script>
-        <script type="text/javascript" src="/swf/js/swfobject.js"></script>
-        <script type="text/javascript" src="/swf/js/rightClick.js"></script>
+        <link rel="stylesheet" type="text/css" href="/flex/history/history.css" />
+        <script type="text/javascript" src="/flex/history/history.js"></script>
+        <script type="text/javascript" src="/flex/js/swfobject.js"></script>
+        <script type="text/javascript" src="/flex/js/rightClick.js"></script>
         <script type="text/javascript">
        		window["loghApplication"] = new Object();
             var swfVersionStr = "@version_major@.@version_minor@.@version_revision@";
-            var xiSwfUrlStr = "/swf/js/playerProductInstall.swf";
+            var xiSwfUrlStr = "/flex/js/playerProductInstall.swf";
             var flashvars = {};
             var params = {};
             params.quality = "high";
@@ -27,7 +27,7 @@
             attributes.id = "loghApplication";
             attributes.name = "loghApplication";
             swfobject.embedSWF(
-                "/swf/modules/@applicationFile@@version@.swf", "flashcontent",
+                "/flex/modules/@applicationFile@@version@.swf", "flashcontent",
                 "100%", "100%",   
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);
