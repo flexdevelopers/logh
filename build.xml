@@ -2,35 +2,35 @@
 <project name="LOGH"
     default="Deploy All Development">
 
-    <!-- load environment specific properties -->
+    <!-- load properties file -->
     <property file="build/build.properties" />
 
-    <!-- master fle build macros -->
+    <!-- flex build macros -->
     <import file="build/flex_build.xml" />
 
     <!-- build type = developer/pre-production/production -->
     <property name="build_type"
         value="developer" />
 
-    <!-- ...web-app/ -->
-    <property name="output.dir"
-        value="${output.server.dir}" />
+    <!-- web-app/ -->
+    <property name="output.dir.app"
+        value="${output.app.dir}" />
 
-    <!-- ...grails-app/views -->
+    <!-- grails-app/views -->
     <property name="output.dir.views"
-              value="${output.grails.dir}views" />
+              value="${output.grails.app.dir}views" />
 
-    <!-- ...web-app/swf -->
-    <property name="output.dir.application"
-        value="${output.application.dir}" />
+    <!-- web-app/swf -->
+    <property name="output.dir.flex.app"
+        value="${output.flex.app.dir}" />
 
-    <!-- ...web-app/swf/modules -->
+    <!-- web-app/swf/modules -->
     <property name="output.dir.modules"
-        value="${output.dir.application}/modules" />
+        value="${output.dir.flex.app}/modules" />
 
-    <!-- ...web-app/swf/rsls -->
+    <!-- web-app/swf/rsls -->
     <property name="output.dir.rsls"
-        value="${output.dir.application}/rsls" />
+        value="${output.dir.flex.app}/rsls" />
 
     <!--
          **********************************************************************
@@ -42,6 +42,21 @@
 
     <!-- Builds all items for development -->
     <target name="Deploy All Development"
+            depends="Deploy All Flex Development">
+    </target>
+
+    <!-- Builds all items for pre-production -->
+    <target name="Deploy All Pre-Production"
+            depends="Deploy All Flex Pre-Production">
+    </target>
+
+    <!-- Builds all items for production -->
+    <target name="Deploy All Production"
+            depends="Deploy All Flex Production">
+    </target>
+
+    <!-- Builds all flex items for flex development -->
+    <target name="Deploy All Flex Development"
         depends="Z-Set Output Directories, Z-Set Output Subdirectories, Z-Set Developer">
         <sequential>
             <antcall target="Copy Support Items" />
@@ -53,7 +68,7 @@
     </target>
 
     <!-- Builds all items for pre-production -->
-    <target name="Deploy All Pre-Production"
+    <target name="Deploy All Flex Pre-Production"
         depends="Z-Set Output Directories, Z-Set Output Subdirectories, Z-Set Pre-Production">
         <sequential>
             <antcall target="Copy Support Items" />
@@ -66,7 +81,7 @@
     </target>
 
     <!-- Builds all items for production -->
-    <target name="Deploy All Production"
+    <target name="Deploy All Flex Production"
         depends="Z-Set Output Directories, Z-Set Output Subdirectories, Z-Set Production">
         <sequential>
             <antcall target="Copy Support Items" />
@@ -79,26 +94,26 @@
     </target>
 
     <target name="Z-Set Output Directories">
-        <var name="output.dir"
+        <var name="output.dir.app"
              unset="true" />
-        <property name="output.dir"
-                  value="${output.server.dir}" />
-        <echo>output.dir: ${output.dir}</echo>
+        <property name="output.dir.app"
+                  value="${output.app.dir}" />
+        <echo>output.dir.app: ${output.dir.app}</echo>
     </target>
 
     <target name="Z-Set Output Subdirectories">
-        <var name="output.dir.application"
+        <var name="output.dir.flex.app"
              unset="true" />
-        <property name="output.dir.application"
-                  value="${output.application.dir}" />
+        <property name="output.dir.flex.app"
+                  value="${output.flex.app.dir}" />
         <var name="output.dir.modules"
              unset="true" />
         <property name="output.dir.modules"
-                  value="${output.dir.application}/modules" />
+                  value="${output.dir.flex.app}/modules" />
         <var name="output.dir.rsls"
              unset="true" />
         <property name="output.dir.rsls"
-                  value="${output.dir.application}/rsls" />
+                  value="${output.dir.flex.app}/rsls" />
     </target>
 
     <target name="Z-Set Production">
@@ -127,11 +142,11 @@
 
     <!-- Copies out assets and rsls, builds the style that also builds the component library -->
     <target name="Copy Support Items">
-        <flex-deploy-assets outputDirectory="${output.dir}"
-                            outputApplicationDirectory="${output.dir.application}" /> <!-- web-app & web-app/swf -->
+        <flex-deploy-assets outputDirectory="${output.dir.app}"
+                            outputApplicationDirectory="${output.dir.flex.app}" /> <!-- web-app & web-app/swf -->
         <flex-deploy-rsls outputrslsdirectory="${output.dir.rsls}" /> <!-- web-app/swf/rsls -->
-        <build-application-html applicationFile="${application_logh}"
-                                applicationTitle="${application_logh.title}"
+        <build-application-html applicationFile="${flex.app}"
+                                applicationTitle="${flex.app.title}"
                                 outputdirectory="${output.dir.views}" /> <!-- grails-app/views -->
     </target>
 
@@ -152,17 +167,17 @@
 
     <!-- Build out styles swf -->
     <target name="Build Styles">
-        <flex-compile-styles csslocation="${theme.app.location}"
+        <flex-compile-styles csslocation="${styles.flex.app}"
                              cssname="LOGH"
-                             outputApplicationDirectory="${output.dir.application}" />  <!-- ...web-app/swf -->
+                             outputApplicationDirectory="${output.dir.flex.app}" />  <!-- web-app/swf -->
     </target>
 
     <!-- Compile the application file. -->
     <target name="Build Application">
-        <flex-compile application="${application_logh}"
+        <flex-compile application="${flex.app}"
                       build.config="${build_type}"
-                      applicationName="${application_logh.name}"
-                      outputApplicationDirectory="${output.dir.application}"
+                      applicationName="${flex.app.name}"
+                      outputApplicationDirectory="${output.dir.flex.app}"
                       outputModuleDirectory="${output.dir.modules}"
                       outputRslsDirectory="${output.dir.rsls}" /> <!-- app=web-app/swf, modules=web-app/swf/modules, rsls=web-app/swf/rsls -->
     </target>
@@ -176,9 +191,9 @@
             description="Build LOGH Login Module">
         <module-compile modulePath="/com/loseorgohome/modules/LOGHLoginModule"
                         moduleName="LOGHLoginModule"
-                        applicationName="${application_logh}"
+                        applicationName="${flex.app}"
                         build.config="${build_type}"
-                        outputApplicationDirectory="${output.dir.application}"
+                        outputApplicationDirectory="${output.dir.flex.app}"
                         outputModuleDirectory="${output.dir.modules}"
                         outputRslsDirectory="${output.dir.rsls}" /> <!-- app=web-app/swf, modules=web-app/swf/modules, rsls=web-app/swf/rsls -->
     </target>
@@ -188,16 +203,16 @@
             description="Build LOGH Users Module">
         <module-compile modulePath="/com/loseorgohome/modules/LOGHUserModule"
                         moduleName="LOGHUserModule"
-                        applicationName="${application_logh}"
+                        applicationName="${flex.app}"
                         build.config="${build_type}"
-                        outputApplicationDirectory="${output.dir.application}"
+                        outputApplicationDirectory="${output.dir.flex.app}"
                         outputModuleDirectory="${output.dir.modules}"
                         outputRslsDirectory="${output.dir.rsls}" />  <!-- app=web-app/swf, modules=web-app/swf/modules, rsls=web-app/swf/rsls -->
     </target>
 
     <!-- Build out asdocs -->
     <target name="Build ASDocs">
-        <flex-deploy-ASDoc outputApplicationDirectory="${output.dir.application}"
+        <flex-deploy-ASDoc outputApplicationDirectory="${output.dir.flex.app}"
             outputRslDirectory="${output.dir.rsls}" /> <!-- app=web-app/swf, rsls=web-app/swf/rsls -->
     </target>
 
@@ -222,9 +237,9 @@
     </target>
 
     <target name="Clean">
-        <delete dir="${output.dir.application}" /> <!-- ...web-app/swf -->
-        <delete file="${output.dir}/crossdomain.xml" /> <!-- ...web-app -->
-        <delete file="${output.dir.views}/index.gsp" /> <!-- ...grails-app/views -->
+        <delete dir="${output.dir.flex.app}" /> <!-- web-app/swf -->
+        <delete file="${output.dir.app}/crossdomain.xml" /> <!-- web-app -->
+        <delete file="${output.dir.views}/index.gsp" /> <!-- grails-app/views -->
     </target>
 
 </project>

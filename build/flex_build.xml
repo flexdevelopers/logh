@@ -41,25 +41,25 @@
             <!-- Create output directory if it doesn't exist-->
             <mkdir dir="@{outputApplicationDirectory}/" /> <!-- web-app/swf -->
 
-            <mxmlc file="${source.flex.dir}/@{application}.mxml"
+            <mxmlc file="${src.flex.app.dir}/@{application}.mxml"
                 fork="true"
                 maxmemory="768m"
                 output="@{outputModuleDirectory}/@{application}${version}.swf">
                 <!--link-report="@{outputApplicationDirectory}/reports/linkage/@{application}${version}-link-report.xml"-->
 
                 <!-- set argument to be used in config file -->
-                <arg value="+lib-dir=${source.libs}" /> <!-- basedir/libs -->
-                <arg value="+flexLib-dir=${source.libs.flex}" /> <!-- ${FLEX_HOME}/frameworks/libs -->
-                <arg value="+loghLib-dir=${source.libs.components}" /> <!-- /src/com/loseorgohome/library -->
+                <arg value="+lib-dir=${libs.flex.app}" /> <!-- basedir/libs -->
+                <arg value="+flexLib-dir=${libs.flex.app.flex}" /> <!-- ${FLEX_HOME}/frameworks/libs -->
+                <arg value="+loghLib-dir=${libs.flex.app.components}" /> <!-- /src/com/loseorgohome/library -->
                 <arg value="+flex-dir=${FLEX_HOME}" />
                 <arg value="+version=${version}" />
                 <arg value="+rsl-output=@{outputRslsDirectory}" /> <!-- web-app/swf/rsls -->
 
                 <!-- Get default compiler options. -->
-                <load-config filename="${flex.application.dir}/build/configs/@{build.config}-config.xml" />
+                <load-config filename="${flex.app.dir}/build/configs/@{build.config}-config.xml" />
 
                 <!-- List of path elements that form the roots of ActionScript class hierarchies. -->
-                <source-path path-element="${source.flex.dir}" /> <!-- src -->
+                <source-path path-element="${src.flex.app.dir}" /> <!-- src -->
 
             </mxmlc>
             <!-- Compile report -->
@@ -90,7 +90,7 @@
             <!-- Create output directory if it doesn't exist-->
             <mkdir dir="@{outputModuleDirectory}" /> <!-- web-app/swf/modules -->
 
-            <mxmlc file="${source.flex.dir}/@{modulePath}.mxml"
+            <mxmlc file="${src.flex.app.dir}/@{modulePath}.mxml"
                 maxmemory="768m"
                 fork="true"
                 output="@{outputModuleDirectory}/@{moduleName}${version}.swf">
@@ -98,18 +98,18 @@
                 <!--link-report="@{outputApplicationDirectory}/reports/linkage/@{moduleName}${version}-link-report.xml"-->
 
                 <!-- set argument to be used in config file -->
-                <arg value="+lib-dir=${source.libs}" /> <!-- basedir/libs -->
-                <arg value="+flexLib-dir=${source.libs.flex}" /> <!-- ${FLEX_HOME}/frameworks/libs -->
-                <arg value="+loghLib-dir=${source.libs.components}" /> <!-- /src/com/loseorgohome/library -->
+                <arg value="+lib-dir=${libs.flex.app}" /> <!-- basedir/libs -->
+                <arg value="+flexLib-dir=${libs.flex.app.flex}" /> <!-- ${FLEX_HOME}/frameworks/libs -->
+                <arg value="+loghLib-dir=${libs.flex.app.components}" /> <!-- /src/com/loseorgohome/library -->
                 <arg value="+flex-dir=${FLEX_HOME}" />
                 <arg value="+version=${version}" />
                 <arg value="+rsl-output=@{outputRslsDirectory}" /> <!-- web-app/swf/rsls -->
 
                 <!-- Get default compiler options. -->
-                <load-config filename="${flex.application.dir}/build/configs/@{build.config}-config.xml" />
+                <load-config filename="${flex.app.dir}/build/configs/@{build.config}-config.xml" />
 
                 <!-- List of path elements that form the roots of ActionScript class hierarchies. -->
-                <source-path path-element="${source.flex.dir}" />
+                <source-path path-element="${src.flex.app.dir}" />
 
             </mxmlc>
             <!-- Compile report -->
@@ -156,7 +156,7 @@
                 </then>
             </if>
 
-            <unzip src="${source.libs}/library/@{swc-name}${version}.swc"
+            <unzip src="${libs.flex.app}/library/@{swc-name}${version}.swc"
                 dest="${output.dir.rsls}"> <!-- web-app/swf/rsls -->
                 <patternset>
                     <include name="library.swf" />
@@ -168,7 +168,7 @@
                 failonerror="true">
                 <arg line="-input ${output.dir.rsls}/library.swf" />
                 <arg line="-output ${output.dir.rsls}/@{swc-name}${version}.swf" />
-                <arg line="-load-config ${flex.application.dir}/build/configs/library-config.xml" />
+                <arg line="-load-config ${flex.app.dir}/build/configs/library-config.xml" />
             </exec>
             <echo>optimized library</echo>
 
@@ -208,8 +208,8 @@
             </if>
 
             <!-- basedir/libs -->
-            <unzip src="${source.libs}/@{lib-sub-dir}/@{swc-name}.swc"
-                dest="${source.libs}/rsls">
+            <unzip src="${libs.flex.app}/@{lib-sub-dir}/@{swc-name}.swc"
+                dest="${libs.flex.app}/rsls">
                 <patternset>
                     <include name="library.swf" />
                 </patternset>
@@ -218,19 +218,19 @@
             <!-- Define the type because of the exe -->
             <exec executable="${FLEX_HOME}/bin/${rsl.optimizer}"
                 failonerror="true">
-                <arg line="-input ${source.libs}/rsls/library.swf" />
-                <arg line="-output ${source.libs}/rsls/@{swc-name}.swf" />
-                <arg line="-load-config ${flex.application.dir}/build/configs/library-config.xml" />
+                <arg line="-input ${libs.flex.app}/rsls/library.swf" />
+                <arg line="-output ${libs.flex.app}/rsls/@{swc-name}.swf" />
+                <arg line="-load-config ${flex.app.dir}/build/configs/library-config.xml" />
             </exec>
             <echo>optimized library</echo>
 
-            <delete file="${source.libs}/rsls/library.swf" />
+            <delete file="${libs.flex.app}/rsls/library.swf" />
 
             <!-- Define the type because of the exe -->
             <exec executable="${FLEX_HOME}/bin/${rsl.digest}"
                 failonerror="true">
-                <arg line="-digest.rsl-file  ${source.libs}/rsls/@{swc-name}.swf" />
-                <arg line="-digest.swc-path  ${source.libs}/@{lib-sub-dir}/@{swc-name}.swc" />
+                <arg line="-digest.rsl-file  ${libs.flex.app}/rsls/@{swc-name}.swf" />
+                <arg line="-digest.swc-path  ${libs.flex.app}/@{lib-sub-dir}/@{swc-name}.swc" />
             </exec>
             <echo>updated digest</echo>
         </sequential>
@@ -244,13 +244,13 @@
         <sequential>
             <xslt in="@{xml-file}"
                 out="@{out-dir}/@{file-name}.html"
-                style="${flex.application.dir}/build/reports/linkage/link-report.xsl" />
+                style="${flex.app.dir}/build/reports/linkage/link-report.xsl" />
         </sequential>
     </macrodef>
 
     <!-- Compile Styles -->
     <macrodef name="flex-compile-styles">
-        <attribute name="cssLocation" /> <!-- ${source.flex.dir}/com/loseorgohome/application/presentation/assets/css/main.css -->
+        <attribute name="cssLocation" /> <!-- ${src.flex.app.dir}/com/loseorgohome/application/presentation/assets/css/main.css -->
         <attribute name="cssName" /> <!-- LOGH -->
         <attribute name="outputApplicationDirectory" /> <!-- ...web-app/swf -->
         <sequential>
@@ -261,7 +261,7 @@
                 output="@{outputApplicationDirectory}/assets/css/@{cssName}${version}.swf">
                 <compiler.headless-server>true</compiler.headless-server>
                 <compiler.library-path append="true"
-                    dir="${source.libs}/library/">
+                    dir="${libs.flex.app}/library/">
                     <include name="componentLibrary${version}.swc" />
                 </compiler.library-path>
             </mxmlc>
@@ -275,14 +275,14 @@
         <attribute name="locale"
             default="en_US" />
         <sequential>
-            <compc output="${source.libs}/library/@{swc-name}${version}.swc"
+            <compc output="${libs.flex.app}/library/@{swc-name}${version}.swc"
                 locale="@{locale}"
                 maxmemory="768m"
                 fork="true"
                 debug="false">
 
-                <source-path path-element="${source.flex.dir}" />
-                <include-sources dir="${source.flex.dir}/com/loseorgohome/library/"
+                <source-path path-element="${src.flex.app.dir}" />
+                <include-sources dir="${src.flex.app.dir}/com/loseorgohome/library/"
                     includes="**/*.as **/*.mxml" />
 
                 <namespace uri="http://ns.adobe.com/mxml/2009"
@@ -294,7 +294,7 @@
                 <namespace uri="http://www.adobe.com/2006/mxml"
                     manifest="${FLEX_HOME}/frameworks/mxml-manifest.xml" />
                 <namespace uri="library://logh.loseorgohome.com/flex/components"
-                    manifest="${source.libs.components}/logh-manifest.xml" />
+                    manifest="${libs.flex.app.components}/logh-manifest.xml" />
                 <include-namespaces>library://logh.loseorgohome.com/flex/components</include-namespaces>
 
                 <!--<compiler.external-library-path dir="libs/"-->
@@ -321,7 +321,7 @@
             <copy preservelastmodified="true"
                 todir="@{ouputRslsDirectory}"> <!-- ...web-app/swf/rsls -->
                 <fileset casesensitive="yes"
-                    dir="${source.libs}/library/">
+                    dir="${libs.flex.app}/library/">
                     <include name="@{swc-name}${version}.swc" />
                 </fileset>
             </copy>
@@ -345,31 +345,31 @@
         <attribute name="applicationFile" /> <!-- LOGHApplication -->
         <attribute name="applicationTitle" /> <!-- Lose Or Go Home -->
         <sequential>
-            <copy file="${flex.application.dir}/html-template/index.template.html"
+            <copy file="${flex.app.dir}/html-template/index.template.html"
                 tofile="@{outputDirectory}/index.gsp"
                 overwrite="true">
                 <filterchain>
                     <replacetokens>
                         <token 
-                            value="${html.version_major}"
+                            value="${flash.version_major}"
                             key="version_major" />
                         <token 
-                            value="${html.version_minor}"
+                            value="${flash.version_minor}"
                             key="version_minor" />
                         <token 
-                            value="${html.version_revision}"
+                            value="${flash.version_revision}"
                             key="version_revision" />
                         <token 
                             value="app"
                             key="application" />
                         <token 
-                            value="${application.width}"
+                            value="${flex.app.width}"
                             key="width" />
                         <token 
-                            value="${application.height}"
+                            value="${flex.app.height}"
                             key="height" />
                         <token 
-                            value="${application.bgcolor}"
+                            value="${flex.app.bgcolor}"
                             key="bgcolor" />
                         <token 
                             value="@{applicationFile}"
@@ -401,7 +401,7 @@
             <copy preservelastmodified="true"
                 todir="@{outputApplicationDirectory}/reports/">
                 <fileset casesensitive="yes"
-                    dir="${flex.application.dir}/build/reports/"
+                    dir="${flex.app.dir}/build/reports/"
                     includes="**/*.*">
                 </fileset>
             </copy>
@@ -410,7 +410,7 @@
             <copy preservelastmodified="true"
                 todir="@{outputApplicationDirectory}/assets/">
                 <fileset casesensitive="yes"
-                    dir="${flex.application.dir}/assets/"
+                    dir="${flex.app.dir}/assets/"
                     includes="**/*.*">
                 </fileset>
             </copy>
@@ -419,7 +419,7 @@
             <copy preservelastmodified="true"
                 todir="@{outputApplicationDirectory}/">
                 <fileset casesensitive="yes"
-                    dir="${flex.application.dir}/html-template"
+                    dir="${flex.app.dir}/html-template"
                     includes="**/*.*">
                     <exclude name="index.template.html" />
                 </fileset>
@@ -430,7 +430,7 @@
                 preservelastmodified="true"
                 todir="@{outputDirectory}">
                 <fileset casesensitive="yes"
-                    dir="${source.flex.dir}/com/loseorgohome/server/">
+                    dir="${src.flex.app.dir}/com/loseorgohome/server/">
                     <include name="crossdomain.xml" />
                 </fileset>
             </copy>
@@ -455,7 +455,7 @@
                 preservelastmodified="true"
                 todir="@{outputRslsDirectory}">
                 <fileset casesensitive="yes"
-                    dir="${source.libs}/rsls/">
+                    dir="${libs.flex.app}/rsls/">
                     <include name="**/*.swf" />
                 </fileset>
             </copy>
@@ -493,7 +493,7 @@
             <!-- actionscript classes -->
             <fileset id="sources"
                 casesensitive="yes"
-                dir="${source.flex.dir}">
+                dir="${src.flex.app.dir}">
                 <include name="**/*.as" />
                 <exclude name="**/*InheritingTextStyles*" />
             </fileset>
@@ -502,7 +502,7 @@
                 pathsep=" "
                 refid="sources">
                 <chainedmapper>
-                    <globmapper from="${source.flex.dir}/*"
+                    <globmapper from="${src.flex.app.dir}/*"
                         to="*"
                         handledirsep="true" />
                     <mapper type="package"
@@ -513,7 +513,7 @@
 
             <!-- mxml classes -->
             <fileset id="sources-mxml"
-                dir="${source.flex.dir}">
+                dir="${src.flex.app.dir}">
                 <include name="**/*.mxml" />
             </fileset>
 
@@ -521,7 +521,7 @@
                 pathsep=" "
                 refid="sources-mxml">
                 <chainedmapper>
-                    <globmapper from="${source.flex.dir}/*"
+                    <globmapper from="${src.flex.app.dir}/*"
                         to="*"
                         handledirsep="true" />
                     <mapper type="package"
@@ -534,12 +534,12 @@
             <!-- combines actionscript and mxml files and export to an asdoc -->
             <exec executable="${FLEX_HOME}/bin/${doc.generator}"
                 failonerror="false">
-                <arg line='-source-path ${source.flex.dir}' />
+                <arg line='-source-path ${src.flex.app.dir}' />
                 <arg line='-doc-classes ${mxml-classes} ${as-classes}' />
                 <arg line='-exclude-dependencies=true' />
-                <arg line='-compiler.external-library-path ${source.libs}/' />
-                <arg line='-compiler.external-library-path ${source.libs}/cairngorm3/' />
-                <arg line='-compiler.external-library-path ${source.libs.flex}/' />
+                <arg line='-compiler.external-library-path ${libs.flex.app}/' />
+                <arg line='-compiler.external-library-path ${libs.flex.app}/cairngorm3/' />
+                <arg line='-compiler.external-library-path ${libs.flex.app.flex}/' />
                 <arg line='-compiler.external-library-path @{outputRslDirectory}/' />
                 <arg line='-warnings=false' />
                 <arg line='-output @{outputApplicationDirectory}/docs' />
